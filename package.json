@@ -24,11 +24,13 @@
   },
   "homepage": "https://github.com/yasniel1408/mern-estec-tool#readme",
   "dependencies": {
+    "activedirectory": "^0.7.2",
     "bcrypt": "^5.0.1",
     "concurrently": "^6.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "jwt-redis": "^6.0.0",
     "mongoose": "^5.12.2",
     "morgan": "^1.10.0",
     "multer": "^1.4.2",

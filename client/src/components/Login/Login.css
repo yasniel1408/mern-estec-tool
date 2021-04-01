@@ -1,0 +1,39 @@
+.loginWrapper{
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 0;
+    background-image: url("../../img/backgroud.jpg");
+    background-repeat: no-repeat, repeat;
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover;
+}
+
+.loginContent{
+    background: rgba(251, 251, 251, 0.781);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.loginSubmit{
+    width: 100%;
+    margin-top: 35px;
+}
+
+.textEnter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+}
