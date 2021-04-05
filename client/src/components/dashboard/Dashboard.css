@@ -1,6 +1,14 @@
 .dashboard{
-    display: flex;
-    justify-content: start;
-    flex-direction: row;
-    background: #ededf2;
+    
+}
+
+.content{
+    width: 100%;
+}
+
+.contentDashboard {
+    margin: 20px;
+    height: 80vh;
+    border-radius: 10px;
+    padding: 20px;
 }

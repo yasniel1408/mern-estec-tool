@@ -13,6 +13,7 @@ export const logout = async({history}) => {
     let response = await axios.post("http://localhost:4000/api/logout",{}, {
       headers: {
         Authorization: localStorage.getItem("auth-token"),
+        'Content-Type': 'application/json'
       },
     });
     if (response.data.ok) {

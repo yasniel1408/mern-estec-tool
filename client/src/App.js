@@ -1,19 +1,33 @@
-import './App.css';
+import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Login from './components/Login/Login';
-import Dashboard from './components/dashboard/Dashboard';
+import Login from "./components/Login/Login";
+import Dashboard from "./components/dashboard/Dashboard";
+import Almacen from "./components/Almacen/Almacen";
+import Nav from "./components/Nav/Nav";
 
 function App() {
   return (
     <Router>
-    <div className="AppContainer">
+      <div className="AppContainer">
+        <Switch>
+          <Route exact path="/" component={Login} />
+          <Container />
+        </Switch>
+      </div>
+    </Router>
+  );
+}
+
+const Container = () => (
+  <Router>
+    <Nav />
+    <div className="contentWork">
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route path="/dashboard" component={Dashboard} />
+        <Route exact path="/dashboard" component={Dashboard} />
+        <Route path="/almacen" component={Almacen} />
       </Switch>
     </div>
   </Router>
-  );
-}
+);
 
 export default App;

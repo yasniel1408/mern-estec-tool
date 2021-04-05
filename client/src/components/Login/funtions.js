@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 import axios from "axios";
 
-export const login = ({ username, password, history }) => {
+export const login = async({ username, password, history }) => {
   let timerInterval;
   Swal.fire({
     title: "Entrando...",

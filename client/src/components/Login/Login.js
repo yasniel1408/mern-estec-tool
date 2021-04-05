@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Input from "../Input/Input";
 import "./Login.css";
-import logo from "../../img/logo.png";
+import logo from "../../img/logo-ESTEC-Tool.png";
 import { validarElToken } from "../../util/auth";
 import { login } from "./funtions";
 
@@ -39,7 +39,7 @@ export const Login = (props) => {
     <div className="loginWrapper">
       <div className="loginContent">
         <div className="textEnter">
-          <img src={logo} width="240" />
+          <img src={logo} width="300" />
         </div>
         <form onSubmit={(e) => enterLogin(e)}>
           <Input
