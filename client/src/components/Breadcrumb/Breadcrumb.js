@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
-import "./Breadcrumb.css";
+import "./Breadcrumb.scss";
 export const Breadcrumb = ({ text, r1, r2, r3, hrefr1, hrefr2, hrefr3 }) => {
 let history = useHistory()
 //   useEffect(() => {

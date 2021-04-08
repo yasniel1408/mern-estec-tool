@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.AppContainer {
+  min-height: 100vh;
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  background: #ededf2;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.contentArea {
+  margin: 20px;
+  height: auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  flex-direction: row;
+  /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+  /* box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px; */
+}
+
+.contentWork {
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  background: #ededf2;
+  width: 100%;
+}
+
+html::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+html::-webkit-scrollbar:vertical {
+  width: 10px;
+}
+html::-webkit-scrollbar-button:increment,
+html::-webkit-scrollbar-button {
+  display: none;
+}
+html::-webkit-scrollbar:horizontal {
+  height: 10px;
+}
+html::-webkit-scrollbar-thumb {
+  background-color: #797979;
+  border-radius: 20px;
+  border: 2px solid #f1f2f3;
+}
+html::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+
+td.details-control {
+  background: url('./img/details_open.png') no-repeat center center; /*Plus Image easily find on intent and I have stored this image into my scr/assets folder*/
+  cursor: pointer;
+  background-size: 20px;
+}
+tr.shown td.details-control {
+  background: url('./img/details_close.png') no-repeat center center;/*Minus Image easily find on intent and I have stored this image into my scr/assets folder*/
+  background-size: 20px;
+}

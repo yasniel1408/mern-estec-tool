@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Dashboard.css";
+import "./Dashboard.scss";
 import { useHistory } from "react-router-dom";
 import { validarElToken } from "../../util/auth";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";

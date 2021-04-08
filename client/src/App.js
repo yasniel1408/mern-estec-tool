@@ -1,9 +1,9 @@
-import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Login from "./components/Login/Login";
 import Dashboard from "./components/dashboard/Dashboard";
 import Almacen from "./components/Almacen/Almacen";
 import Nav from "./components/Nav/Nav";
+import './App.scss'
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
 }
 
 const Container = () => (
-  <Router>
+  <>
     <Nav />
     <div className="contentWork">
       <Switch>
@@ -27,7 +27,7 @@ const Container = () => (
         <Route path="/almacen" component={Almacen} />
       </Switch>
     </div>
-  </Router>
+  </>
 );
 
 export default App;

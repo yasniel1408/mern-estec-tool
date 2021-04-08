@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import "./Nav.css";
+import "./Nav.scss";
 import logo from "../../img/logo-ESTEC-Tool.png";
 import { useHistory } from "react-router-dom";
 import { cargarUser, logout } from "./funtions";

@@ -1,0 +1,34 @@
+.Input {
+  input,
+  select,
+  textarea {
+    border-radius: 5px;
+    color: #5b5e5e;
+    font-size: 18px;
+    font-size: 1.4rem;
+    padding: 10px;
+
+    align-items: center;
+    background: #f0f0f0;
+    border-radius: 100px;
+    box-sizing: border-box;
+    display: flex;
+    max-height: none;
+    min-height: 48px;
+    padding: 0 17px;
+    position: relative;
+  }
+
+  input,
+  select,
+  textarea:focus {
+    border: none;
+    outline: none;
+  }
+  input,
+  select,
+  textarea:active {
+    border: none;
+    outline: none;
+  }
+}

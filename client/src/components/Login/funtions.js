@@ -1,5 +1,6 @@
 import Swal from "sweetalert2";
 import axios from "axios";
+import { urlLogin } from "../../util/rutasAPI";
 
 export const login = async({ username, password, history }) => {
   let timerInterval;
@@ -16,7 +17,7 @@ export const login = async({ username, password, history }) => {
     },
   }).then(async (result) => {
     if (result.dismiss === Swal.DismissReason.timer) {
-      let url = "http://localhost:4000/api/login";
+      let url = urlLogin;
       await axios({
         method: "POST",
         url,
@@ -24,6 +25,9 @@ export const login = async({ username, password, history }) => {
           username,
           password,
         },
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
         .then((response) => {
           Swal.fire({
@@ -43,14 +47,15 @@ export const login = async({ username, password, history }) => {
         })
         .catch(function (error) {
           let errors = error.error;
-          console.log(errors);
+          console.log(error);
           Swal.fire({
             title: "<strong>Error</strong>",
             icon: "error",
-            html: errors,
+            html: error,
             confirmButtonText: "Ok!",
           });
         });
+
     }
   });
 };

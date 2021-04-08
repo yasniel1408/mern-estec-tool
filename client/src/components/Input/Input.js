@@ -1,9 +1,9 @@
 import React from "react";
-import './Input.css'
+import './Input.scss'
 
 const Input = ({ text, check, placeholder, value, onChange, type, name }) => {
   return (
-    <label>
+    <label className="Input">
       <p>{text}</p>
       <input
         type="text"

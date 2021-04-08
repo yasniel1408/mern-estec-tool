@@ -1,0 +1,81 @@
+.ka-table {
+  width: 100%;
+  .ka-thead {
+    // background: #2a418f;
+    // border: 2px solid #2a418f;
+    // color: #fff;
+    .ka-thead-background {
+      background: #2a418f;
+      color: #fff;
+    }
+    .ka-thead-cell-content-wrapper {
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+    }
+    .ka-thead-background {
+      height: 40px;
+    }
+  }
+
+  .ka-cell {
+    border-bottom: 1px solid #e7e7e7;
+    height: 40px;
+  }
+}
+
+.ka-input {
+  border-radius: 5px;
+  color: #5b5e5e;
+  font-size: 18px;
+  font-size: 1.4rem;
+  padding: 10px;
+  align-items: center;
+  background: #f0f0f0;
+  border-radius: 100px;
+  box-sizing: border-box;
+  display: flex;
+  height: 35px;
+  padding: 0 17px;
+  position: relative;
+  width: 100%;
+  outline: none;
+  border: none;
+  &:focus {
+    outline: none;
+    border: none;
+  }
+}
+
+.ka-paging-pages {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
+  .ka-paging-page-index {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    background: #2a418f;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+  }
+  .ka-paging-page-index-active {
+    background: #ff5e0f;
+  }
+}
+
+table {
+  display: table;
+  border-collapse: separate;
+  box-sizing: border-box;
+  text-indent: initial;
+  border-spacing: 0px !important;
+  border-color: grey;
+  text-align: center;
+}

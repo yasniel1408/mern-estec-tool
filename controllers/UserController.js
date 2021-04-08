@@ -1,7 +1,6 @@
 const controller = {};
 var ActiveDirectory = require("activedirectory");
-const jwt = require('jsonwebtoken');
-const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 controller.login = async (req, res) => {
   let { username, password } = req.body;
@@ -13,14 +12,14 @@ controller.login = async (req, res) => {
     password: password,
   };
   var ad = new ActiveDirectory(config);
-  ad.authenticate(username, password, function (err, auth) {
+  await ad.authenticate(username, password, async function (err, auth) {
     if (err) {
       console.log("ERROR: " + JSON.stringify(err));
       //   res.status(500).json({ error: err.lde_message });
       res.status(500).json({ error: "Usuario o contraseña incorrecta" });
     }
     if (auth) {
-      ad.findUser(username, async (err, userad) => {
+      await ad.findUser(username, async (err, userad) => {
         if (err) {
           console.log("ERROR:" + JSON.stringify(err));
           return;
@@ -31,31 +30,29 @@ controller.login = async (req, res) => {
             .status(500)
             .json({ error: "Usuario:" + username + "no encontrado." });
         } else {
-          const userm = await User.findOne({ username });
+          // const userm = await User.findOne({ username });
           //   console.log(userm)
 
-          const user = new User({
+          const user = {
             username: userad.sAMAccountName,
             fullname: userad.displayName,
             photo: "",
             email: userad.mail,
             active: true,
             rol: userad.description,
-          });
-
+          };
 
           //esto hay que guardarlo en alguna tabla
-        //   if (!userm) {
-        //     await user.save().catch((err) => res.json(err));
-        //   }
+          //   if (!userm) {
+          //     await user.save().catch((err) => res.json(err));
+          //   }
 
           let token = jwt.sign({ user: user }, "secret", {
             expiresIn: "24h",
           });
-          res.status(200).json({
-            token
+          await res.status(200).json({
+            token,
           });
-
         }
       });
     } else {
@@ -65,15 +62,15 @@ controller.login = async (req, res) => {
 };
 
 controller.verificarToken = async (req, res) => {
-    res.json({
-        ok: true
-    });
+  res.json({
+    ok: true,
+  });
 };
 
 controller.logout = async (req, res) => {
-//   let token = req.get("Authorization");
-//   const response = await jwt.destroy(token);
-  res.json({
+  //   let token = req.get("Authorization");
+  //   const response = await jwt.destroy(token);
+  await res.json({
     ok: true,
   });
 };

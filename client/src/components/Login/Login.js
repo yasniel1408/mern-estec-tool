@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import Input from "../Input/Input";
-import "./Login.css";
+import "./Login.scss";
 import logo from "../../img/logo-ESTEC-Tool.png";
 import { validarElToken } from "../../util/auth";
 import { login } from "./funtions";
@@ -63,7 +63,7 @@ export const Login = (props) => {
             check={checkPassword && password === ""}
           />
           <div className="loginSubmit">
-            <button type="submit">Entrar</button>
+            <button type="submit" className="button">Entrar</button>
           </div>
         </form>
       </div>

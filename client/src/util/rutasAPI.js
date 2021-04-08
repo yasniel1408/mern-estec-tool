@@ -9,8 +9,16 @@ if(process.env.NODE_ENV === "production"){
 
 const urlLogin = `${server}/login`;
 const urlVerifiedToken = `${server}/verifie-token`;
+const urlLogout = `${server}/logout`;
+
+
+const urlGetAlmacen = `${server}/almacen`;
+
+
 
 module.exports = {
     urlLogin,
     urlVerifiedToken,
+    urlLogout,
+    urlGetAlmacen
 }
