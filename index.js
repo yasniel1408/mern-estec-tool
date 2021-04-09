@@ -12,7 +12,7 @@ require('./socket/socket')(io);
 app.set('port', process.env.PORT || 4000);
 
 //Middelewares
-app.use(morgan('dev'));
+// app.use(morgan('dev'));
 app.use(express.json());
 app.use(cors())
 // app.use((req, res, next) => {

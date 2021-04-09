@@ -20,12 +20,11 @@ module.exports = class Sql {
     return mssql.close();
   }
 
-  async select(table) {
+  async selectAll() {
     return new Promise((resolve, reject) => {
       this.connect()
         .then((pool) => {
-          return pool.request().query(`select [Id_Producto]
-                ,[Desc_Producto] from ${table}`);
+          return pool.request().query(`select * from Existencia_Lotes`);
         })
         .then((result) => {
           mssql.close();
@@ -39,14 +38,14 @@ module.exports = class Sql {
 
   async selectById(table, id) {
     if (id == undefined || id === 0) {
-      return await this.select(table);
+      return await this.selectAll(table);
     } else {
       return new Promise((resolve, reject) => {
         this.connect()
           .then((pool) => {
             return pool
               .request()
-              .query(`select * from ${table} where id=${id}`);
+              .query(`select * from Existencia_Lotes where id=${id}`);
           })
           .then((result) => {
             mssql.close();

@@ -2,12 +2,12 @@ const controller = {};
 ("use strict");
 
 const config = require("../db/configSqls");
-const Almacen = require("../models/Almacen");
-const almacen = new Almacen(config.connectionSQL);
+const ExistenciaLotes = require("../models/ExistenciaLotes");
+const existenciaLotes = new ExistenciaLotes(config.connectionSQL);
 
 controller.data = async (req, res) => {
   try {
-    let response = await almacen.select("Producto");
+    let response = await existenciaLotes.selectAll();
     const seleccion = response.recordset;
 
     let results = {
@@ -22,7 +22,7 @@ controller.data = async (req, res) => {
     });
     console.log(seleccion);
   } catch (error) {
-    almacen.close();
+    existenciaLotes.close();
     console.log(error);
   }
 };

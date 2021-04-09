@@ -12,7 +12,7 @@ const urlVerifiedToken = `${server}/verifie-token`;
 const urlLogout = `${server}/logout`;
 
 
-const urlGetAlmacen = `${server}/almacen`;
+const urlGetProducto = `${server}/producto`;
 
 
 
@@ -20,5 +20,5 @@ module.exports = {
     urlLogin,
     urlVerifiedToken,
     urlLogout,
-    urlGetAlmacen
+    urlGetProducto
 }

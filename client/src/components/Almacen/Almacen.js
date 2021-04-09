@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import "./Table.scss";
-import { urlGetAlmacen } from "../../util/rutasAPI";
+import { urlGetProducto } from "../../util/rutasAPI";
 import $ from "jquery";
-require("datatables.net-buttons")(window, $);
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const Almacen = (props) => {
   useEffect(() => {
     $(document).ready(function () {
+      $("#table-almacen tfoot th").each(function (index) {
+        var title = $(this).text();
+        $(this).html('<input type="search" placeholder="Filtrar.." />');
+      });
+
       var table = $("#table-almacen").DataTable({
         bProcessing: true,
         ajax: {
           method: "GET",
-          url: urlGetAlmacen,
+          url: urlGetProducto,
           data: { operacion: "datos" },
           headers: {
             Authorization: localStorage.getItem("auth-token"),
@@ -20,13 +26,41 @@ export const Almacen = (props) => {
         },
         columns: [
           {
-            data: "<td class='details-control'></td>",
+            data: "",
+            searchable: false,
+            render: function (value, date) {
+              return date;
+            },
           },
           {
             data: "Id_Producto",
+            type: "string",
+            visible: true,
+            searchable: true,
           },
           {
             data: "Desc_Producto",
+            type: "string",
+            visible: true,
+            searchable: true,
+          },
+          {
+            data: "Fecha_Entrada",
+            type: "date",
+            visible: true,
+            searchable: true,
+            render: function (value) {
+              if (value === null) return "";
+              var dt = new Date(value);
+              if (dt.getFullYear() === 9999) return ""; //Control para MaxValue
+              return (
+                dt.getDate() +
+                "/" +
+                (dt.getMonth() + 1) +
+                "/" +
+                dt.getFullYear()
+              );
+            },
           },
         ],
         columnDefs: [
@@ -40,19 +74,21 @@ export const Almacen = (props) => {
             },
           },
         ],
-        retrieve: true,
-        dom: "Blfrtip",
+        dom: "BRlfrtipRT",
         pageLength: 10,
         order: [[1, "asc"]],
+        processing: true,
+        serverSide: true,
+        destroy: true,
         buttons: [
           {
             extend: "collection",
-            text: "<i class='glyphicon glyphicon-download-alt'></i> Exportar",
+            text: " Exportar",
             buttons: ["copy", "excel", "csv", "pdf", "print"],
           },
         ],
         language: {
-          sProcessing: "Cargando...",
+          sProcessing: "",
           sLengthMenu: "Mostrar _MENU_ registros",
           sZeroRecords: "No se encontraron resultados",
           sEmptyTable: "Ningún dato disponible en esta tabla",
@@ -63,11 +99,11 @@ export const Almacen = (props) => {
           sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
           sInfoPostFix: "",
           sSearch: "Buscar:",
-          searchPlaceholder: "Escribe aquí para buscar..",
+          searchPlaceholder: "Filtro Universal...",
           sUrl: "",
           sInfoThousands: ",",
           sLoadingRecords:
-            "<img style='display: block;width:100px;margin:0 auto;' src='assets/img/loading.gif' />",
+            "<div class='loaderTable' style='display: block;width:50px;height:50px;margin:0 auto;'></div>",
           oPaginate: {
             sFirst: "Primero",
             sLast: "Último",
@@ -81,18 +117,33 @@ export const Almacen = (props) => {
               ": Activar para ordenar la columna de manera descendente",
           },
         },
+        initComplete: function () {
+          this.api()
+            .columns()
+            .every(function () {
+              var that = this;
+              $("input", this.footer()).on("keyup change", function () {
+                if (that.search() !== this.value) {
+                  that.search(this.value).draw();
+                }
+              });
+            });
+        },
       });
 
-      $("#table-almacen tbody").on("click", "td.details-control", function () {
+      $("#table-almacen tbody").on("click", "td.details-control", function (e) {
         var tr = $(this).closest("tr");
         var row = table.row(tr);
         if (row.child.isShown()) {
           row.child.hide();
           tr.removeClass("shown");
         } else {
+          console.log(e.target);
           row
             .child(
-              '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;"><tr><td>Full name:</td><td>Ajay</td></tr></table>'
+              '<table id="table-almacen" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                "HOLAAAAA" +
+                "</table>"
             )
             .show();
           tr.addClass("shown");
@@ -103,16 +154,26 @@ export const Almacen = (props) => {
 
   return (
     <>
-      <Breadcrumb text="Almacenes" />
+      <Breadcrumb text="Productos en existencia" />
       <div className="contentArea">
         <table id="table-almacen">
           <thead>
             <tr>
               <th className="details-control sorting_disabled" disabled></th>
-              <th>Id</th>
-              <th>Nomber</th>
+              <th>Id Producto</th>
+              <th>Nomber del Producto</th>
+              <th>Fecha de Entrada</th>
             </tr>
           </thead>
+
+          <tfoot>
+            <tr>
+              <th className="details-control sorting_disabled" disabled></th>
+              <th></th>
+              <th></th>
+              <th></th>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </>
