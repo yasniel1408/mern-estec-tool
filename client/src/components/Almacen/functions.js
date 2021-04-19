@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { urlGetAlmacen } from "../../util/rutasAPI";
 
 
-export const loadData = async() => {
-    ;         
+export const loadOneDate = async(id, almacen) => {
+         
+    return "";
 }

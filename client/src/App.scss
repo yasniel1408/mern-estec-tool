@@ -85,15 +85,16 @@ tr.shown td.details-control {
   background-size: 20px;
 }
 
-td.details-control-more {
-  background: url("./img/details_open.png") no-repeat center center; /*Plus Image easily find on intent and I have stored this image into my scr/assets folder*/
-  cursor: pointer;
-  background-size: 20px;
+.selected{
+  background: #ff5e0f !important;
+  color: #fff !important;
 }
-tr.shown td.details-control-more {
-  background: url("./img/details_close.png") no-repeat center center; /*Minus Image easily find on intent and I have stored this image into my scr/assets folder*/
-  background-size: 20px;
+
+.noselectede{
+  background: #ff5e0f !important;
+  color: #fff !important;
 }
+
 
 .sorting_disabled {
   input {
@@ -226,9 +227,9 @@ table{
   color: white;
 }
 
-.btnModal {
-  cursor: pointer;
-}
+// .btnModal {
+//   cursor: pointer;
+// }
 
 
 #myInput {
@@ -263,3 +264,8 @@ table{
   /* Add a grey background color to the table header and on hover */
   background-color: #f1f1f1;
 }
+
+
+
+
+

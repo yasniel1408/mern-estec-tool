@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { urlVerifiedToken } = require("./rutasAPI");
 
-const validarElToken = async ({ history }) => {
+export const validarElToken = async ({ history }) => {
   let token = localStorage.getItem("auth-token");
   if (token) {
     let tokenValid = await axios({
@@ -23,6 +23,3 @@ const validarElToken = async ({ history }) => {
   }
 };
 
-module.exports = {
-  validarElToken,
-};

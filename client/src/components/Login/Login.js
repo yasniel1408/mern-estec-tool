@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import Input from "../Input/Input";
 import "./Login.scss";
 import logo from "../../img/logo-ESTEC-Tool.png";
-import { validarElToken } from "../../util/auth";
+import {validarElToken} from "../../util/auth";
 import { login } from "./funtions";
 
 export const Login = (props) => {

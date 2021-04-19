@@ -4,8 +4,11 @@ import { urlGetExistenciaProducto, urlGetProducto } from "../../util/rutasAPI";
 import $ from "jquery";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { loadOneDate } from "./functions";
 
 export const Almacen = (props) => {
+  const [producto, setProducto] = useState([]);
+
   useEffect(() => {
     $(document).ready(function () {
       var table = $("#table-almacen").DataTable({
@@ -40,9 +43,9 @@ export const Almacen = (props) => {
           },
           {
             data: "Fecha_Entrada",
-            type: "date",
+            type: "string",
             visible: true,
-            searchable: true,
+            searchable: false,
             render: function (value) {
               if (value === null) return "";
               var dt = new Date(value);
@@ -118,16 +121,16 @@ export const Almacen = (props) => {
         } else {
           row
             .child(
-              `<table id="${tr[0].cells[1].innerText}_table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; className="table"">` +
+              `<table id="${tr[0].cells[1].innerText}_table" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; class="table"">` +
                 "<thead>" +
                 "<tr>" +
+                `<th class='details-control sorting_disabled' disabled> </th>` +
                 "<th>Id Almacen</th>" +
                 "<th>Id Lote</th>" +
                 "<th>Fecha Entrada</th>" +
                 "<th>Fecha Vence</th>" +
                 "<th>Saldo Existencia</th>" +
-                `<th class='details-control sorting_disabled' disabled>              
-                </th>` +
+                "<th>Saldo Existencia</th>" +
                 "</tr>" +
                 "</thead>" +
                 "</table>"
@@ -135,7 +138,9 @@ export const Almacen = (props) => {
             .show();
           tr.addClass("shown");
           $(document).ready(function () {
-            $(`#${tr[0].cells[1].innerText}_table`).DataTable({
+            var tableDetalle = $(
+              `#${tr[0].cells[1].innerText}_table`
+            ).DataTable({
               bProcessing: true,
               ajax: {
                 method: "GET",
@@ -145,11 +150,18 @@ export const Almacen = (props) => {
                   Authorization: localStorage.getItem("auth-token"),
                 },
               },
-              dom: "Bfrtip",
+              dom: "Brti",
               pageLength: 10,
               destroy: true,
               buttons: [],
               columns: [
+                {
+                  data: "",
+                  searchable: false,
+                  render: function (value, date) {
+                    return value;
+                  },
+                },
                 {
                   data: "Id_Almacen",
                   type: "string",
@@ -205,200 +217,20 @@ export const Almacen = (props) => {
                   searchable: true,
                 },
                 {
-                  data: "",
-                  searchable: false,
+                  data: "Disponibles",
+                  type: "string",
+                  visible: true,
+                  searchable: true,
                 },
               ],
               columnDefs: [
                 {
-                  targets: -1,
+                  targets: 0,
                   data: null,
                   searchable: false,
                   defaultContent: "",
                   createdCell: function (td, cellData, rowData, row, col) {
-                    function formatoFecha(value) {
-                      if (value === null) return "";
-                      var dt = new Date(value);
-                      if (dt.getFullYear() === 9999) return "";
-                      return (
-                        dt.getDate() +
-                        "/" +
-                        (dt.getMonth() + 1) +
-                        "/" +
-                        dt.getFullYear()
-                      );
-                    }
-                    if (cellData < 1) {
-                      $(td).addClass("details-control");
-                      $(td).addClass(`myBtn${rowData.Id_Producto.trim()}`);
-                      $(td).addClass(`myBtn${rowData.Id_Producto.trim()}`);
-                      $(td).html(`
-                    <div id="myModal${rowData.Id_Producto.trim()}" class="modal myModal${rowData.Id_Producto.trim()}">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h2>${tr[0].cells[2].innerText.trim()} con ID: ${rowData.Id_Producto.trim()} en Almacen: ${
-                        rowData.Id_Almacen
-                      }</h2>
-                            <span class="close close_${rowData.Id_Producto.trim()}">×</span>
-                        </div>
-                        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Filtrar campo..." />
-                        <table id="myTable" class="myTable myTable${rowData.Id_Producto.trim()}">
-                          <tbody><tr className="header">
-                              <th style={{width: '60%'}}>Campo</th>
-                              <th style={{width: '40%'}}>Valor</th>
-                            </tr>
-                            <tr>
-                              <td>Id de Lote</td>
-                              <td>${rowData.Id_Lote}</td>
-                            </tr>
-                            <tr>
-                              <td>Referencia</td>
-                              <td>${rowData.Referencia}</td>
-                            </tr>
-                            <tr>
-                              <td>Fecha de Entrada</td>
-                              <td>${formatoFecha(rowData.Fecha_Entrada)}</td>
-                            </tr>
-                            <tr>
-                              <td>Fecha de Vencimiento</td>
-                              <td>${formatoFecha(rowData.Fecha_Vence)}</td>
-                            </tr>
-                            <tr>
-                              <td>Saldo en Existencia</td>
-                              <td>${rowData.Saldo_Existencia}</td>
-                            </tr>
-                            <tr>
-                              <td>Reservadas</td>
-                              <td>${rowData.Reservadas}</td>
-                            </tr>
-                            <tr>
-                              <td>Disponibles</td>
-                              <td>${rowData.Disponibles}</td>
-                            </tr>
-                            <tr>
-                              <td>Sección</td>
-                              <td>${rowData.Seccion}</td>
-                            </tr>
-                            <tr>
-                              <td>Estante</td>
-                              <td>${rowData.Estante}</td>
-                            </tr>
-                            <tr>
-                              <td>Casilla</td>
-                              <td>${rowData.Casilla}</td>
-                            </tr>
-                            <tr>
-                              <td>Precio del CostoMB</td>
-                              <td>${rowData.Precio_CostoMB}</td>
-                            </tr>
-                            <tr>
-                              <td>Precio del CostoMC</td>
-                              <td>${rowData.Precio_CostoMC}</td>
-                            </tr>
-                            <tr>
-                              <td>Costo de ArancelMB</td>
-                              <td>${rowData.Costo_ArancelMB}</td>
-                            </tr>
-                            <tr>
-                              <td>Costo de ArancelMC</td>
-                              <td>${rowData.Costo_ArancelMC}</td>
-                            </tr>
-                            <tr>
-                              <td>ImporteMB</td>
-                              <td>${rowData.ImporteMB}</td>
-                            </tr>
-                            <tr>
-                              <td>ImporteMC</td>
-                              <td>${rowData.ImporteMC}</td>
-                            </tr>
-                            <tr>
-                              <td>Fecha de Inicio</td>
-                              <td>${formatoFecha(rowData.Fecha_Inicio)}</td>
-                            </tr>
-                            <tr>
-                              <td>Existencia en Inicio</td>
-                              <td>${rowData.Existencia_Inicio}</td>
-                            </tr>
-                            <tr>
-                              <td>Precio de InicioMC</td>
-                              <td>${rowData.Precio_InicioMC}</td>
-                            </tr>
-                            <tr>
-                              <td>Precio de InicioMB</td>
-                              <td>${rowData.Precio_InicioMB}</td>
-                            </tr>
-                            <tr>
-                              <td>Importe de InicioMB</td>
-                              <td>${rowData.Importe_InicioMB}</td>
-                            </tr>
-                            <tr>
-                              <td>Importe de InicioMC</td>
-                              <td>${rowData.Importe_InicioMC}</td>
-                            </tr>
-                            <tr>
-                              <td>Zona</td>
-                              <td>${rowData.Zona}</td>
-                            </tr>
-                            <tr>
-                              <td>Conteo</td>
-                              <td>${rowData.Conteo}</td>
-                            </tr>
-                            <tr>
-                              <td>Fecha de Conteo</td>
-                              <td>${formatoFecha(rowData.Fecha_Conteo)}</td>
-                            </tr>
-                            <tr>
-                              <td>Marca</td>
-                              <td>${rowData.Marca}</td>
-                            </tr>
-                            <tr>
-                              <td>Fecha último Mov</td>
-                              <td>${formatoFecha(rowData.Fecha_LastMov)}</td>
-                            </tr>
-                            <tr>
-                              <td>Documento</td>
-                              <td>${rowData.Documto}</td>
-                            </tr>
-                            <tr>
-                              <td>Estado</td>
-                              <td>${rowData.Estado}</td>
-                            </tr>
-                            <tr>
-                              <td>Empaque</td>
-                              <td>${rowData.Empaque}</td>
-                            </tr>
-                            <tr>
-                              <td>Empaque Inicio</td>
-                              <td>${rowData.Empaque_Inicio}</td>
-                            </tr>
-                            <tr>
-                              <td>InvFisico</td>
-                              <td>${rowData.InvFisico}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      </div>
-                      </div>
-                    </div>
-                    `);
-                    }
-
-                    $(document).ready(function () {
-                      var modal = document.querySelector(
-                        `.myModal${rowData.Id_Producto.trim()}`
-                      );
-                      var btn = document.querySelector(
-                        `.myBtn${rowData.Id_Producto.trim()}`
-                      );
-                      var span = document.querySelector(
-                        `.close_${rowData.Id_Producto.trim()}`
-                      );
-                      btn.onclick = () => (modal.style.display = "block");
-                      span.onclick = () => {
-                        modal.style.display = "none";
-                      };
-                    });
+                    if (cellData < 1) $(td).addClass("details-control");
                   },
                 },
               ],
@@ -434,17 +266,225 @@ export const Almacen = (props) => {
                 },
               },
             });
+
+            /////////////MAS DATALLE//////////////
+            $(`#${tr[0].cells[1].innerText}_table tbody`).on(
+              "click",
+              "td.details-control",
+              function (e) {
+                e.preventDefault();
+                var data3;
+                setTimeout(() => {
+                  var d = tableDetalle.data().toArray();
+                  data3 = d[0];
+                  var trD = $(this).closest("tr");
+                  var rowD = tableDetalle.row(trD);
+                  if (rowD.child.isShown()) {
+                    rowD.child.hide();
+                    trD.removeClass("shown");
+                  } else {
+                    rowD
+                      .child(
+                        `
+                        <div id="myModal${data3.Id_Producto.trim()}" class="modal myModal${data3.Id_Producto.trim()}">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h2>${tr[0].cells[2].innerText.trim()} con ID: ${data3.Id_Producto.trim()} en Almacen: ${
+                                                data3.Id_Almacen
+                                              }</h2>
+                                <span class="close close${data3.Id_Producto.trim()}">×</span>
+                            </div>
+                            
+                            <table id="myTable" class="myTable myTable${data3.Id_Producto.trim()}">
+                              <tbody>
+                                <tr className="header">
+                                  <th style={{width: '60%'}}><input type="text" id="myInput" onkeyup="myFunction()" placeholder="Filtrar campo..." /></th>
+                                  <th style={{width: '40%'}}></th>
+                                </tr>
+                                <tr className="header">
+                                  <th style={{width: '60%'}}>Campo</th>
+                                  <th style={{width: '40%'}}>Valor</th>
+                                </tr>
+                                <tr>
+                                  <td>Id de Lote</td>
+                                  <td>${data3.Id_Lote}</td>
+                                </tr>
+                                <tr>
+                                  <td>Referencia</td>
+                                  <td>${data3.Referencia}</td>
+                                </tr>
+                                <tr>
+                                  <td>Fecha de Entrada</td>
+                                  <td>${formatoFecha(data3.Fecha_Entrada)}</td>
+                                </tr>
+                                <tr>
+                                  <td>Fecha de Vencimiento</td>
+                                  <td>${formatoFecha(data3.Fecha_Vence)}</td>
+                                </tr>
+                                <tr>
+                                  <td>Saldo en Existencia</td>
+                                  <td>${data3.Saldo_Existencia}</td>
+                                </tr>
+                                <tr>
+                                  <td>Reservadas</td>
+                                  <td>${data3.Reservadas}</td>
+                                </tr>
+                                <tr>
+                                  <td>Disponibles</td>
+                                  <td>${data3.Disponibles}</td>
+                                </tr>
+                                <tr>
+                                  <td>Sección</td>
+                                  <td>${data3.Seccion}</td>
+                                </tr>
+                                <tr>
+                                  <td>Estante</td>
+                                  <td>${data3.Estante}</td>
+                                </tr>
+                                <tr>
+                                  <td>Casilla</td>
+                                  <td>${data3.Casilla}</td>
+                                </tr>
+                                <tr>
+                                  <td>Precio del CostoMB</td>
+                                  <td>${data3.Precio_CostoMB}</td>
+                                </tr>
+                                <tr>
+                                  <td>Precio del CostoMC</td>
+                                  <td>${data3.Precio_CostoMC}</td>
+                                </tr>
+                                <tr>
+                                  <td>Costo de ArancelMB</td>
+                                  <td>${data3.Costo_ArancelMB}</td>
+                                </tr>
+                                <tr>
+                                  <td>Costo de ArancelMC</td>
+                                  <td>${data3.Costo_ArancelMC}</td>
+                                </tr>
+                                <tr>
+                                  <td>ImporteMB</td>
+                                  <td>${data3.ImporteMB}</td>
+                                </tr>
+                                <tr>
+                                  <td>ImporteMC</td>
+                                  <td>${data3.ImporteMC}</td>
+                                </tr>
+                                <tr>
+                                  <td>Fecha de Inicio</td>
+                                  <td>${formatoFecha(data3.Fecha_Inicio)}</td>
+                                </tr>
+                                <tr>
+                                  <td>Existencia en Inicio</td>
+                                  <td>${data3.Existencia_Inicio}</td>
+                                </tr>
+                                <tr>
+                                  <td>Precio de InicioMC</td>
+                                  <td>${data3.Precio_InicioMC}</td>
+                                </tr>
+                                <tr>
+                                  <td>Precio de InicioMB</td>
+                                  <td>${data3.Precio_InicioMB}</td>
+                                </tr>
+                                <tr>
+                                  <td>Importe de InicioMB</td>
+                                  <td>${data3.Importe_InicioMB}</td>
+                                </tr>
+                                <tr>
+                                  <td>Importe de InicioMC</td>
+                                  <td>${data3.Importe_InicioMC}</td>
+                                </tr>
+                                <tr>
+                                  <td>Zona</td>
+                                  <td>${data3.Zona}</td>
+                                </tr>
+                                <tr>
+                                  <td>Conteo</td>
+                                  <td>${data3.Conteo}</td>
+                                </tr>
+                                <tr>
+                                  <td>Fecha de Conteo</td>
+                                  <td>${formatoFecha(data3.Fecha_Conteo)}</td>
+                                </tr>
+                                <tr>
+                                  <td>Marca</td>
+                                  <td>${data3.Marca}</td>
+                                </tr>
+                                <tr>
+                                  <td>Fecha último Mov</td>
+                                  <td>${formatoFecha(data3.Fecha_LastMov)}</td>
+                                </tr>
+                                <tr>
+                                  <td>Documento</td>
+                                  <td>${data3.Documto}</td>
+                                </tr>
+                                <tr>
+                                  <td>Estado</td>
+                                  <td>${data3.Estado}</td>
+                                </tr>
+                                <tr>
+                                  <td>Empaque</td>
+                                  <td>${data3.Empaque}</td>
+                                </tr>
+                                <tr>
+                                  <td>Empaque Inicio</td>
+                                  <td>${data3.Empaque_Inicio}</td>
+                                </tr>
+                                <tr>
+                                  <td>InvFisico</td>
+                                  <td>${data3.InvFisico}</td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          </div>
+                          </div>
+                        </div>
+                    `
+                      )
+                      .show();
+                    trD.addClass("shown");
+
+                    var modal = document.querySelector(
+                      `.myModal${data3.Id_Producto.trim()}`
+                    );
+                    var span = document.getElementsByClassName(`close${data3.Id_Producto.trim()}`)[0];
+                    setTimeout(() => {
+                      modal.style.display = "block";
+                    }, 100);
+                    span.onclick = function () {
+                      modal.style.display = "none";
+                      rowD.child.hide();
+                      trD.removeClass("shown");
+                    };
+                    window.onclick = function (event) {
+                      if (event.target == modal) {
+                        modal.style.display = "none";
+                        rowD.child.hide();
+                        trD.removeClass("shown");
+                      }
+                    };
+                  }
+                }, 100);
+              }
+            );
           });
         }
       });
     });
   }, []);
 
+  function formatoFecha(value) {
+    if (value === null) return "";
+    var dt = new Date(value);
+    if (dt.getFullYear() === 9999) return "";
+    return dt.getDate() + "/" + (dt.getMonth() + 1) + "/" + dt.getFullYear();
+  }
+
   return (
     <>
       <Breadcrumb text="Productos en existencia" />
       <div className="contentArea">
-        <table id="table-almacen" className="table table-striped table-hover">
+        <table id="table-almacen" className="table table-hover">
           <thead>
             <tr>
               <th className="details-control sorting_disabled" disabled></th>
