@@ -1,11 +1,12 @@
 const axios = require("axios");
+const { urlVerifiedToken } = require("./rutasAPI");
 
 const validarElToken = async ({ history }) => {
   let token = localStorage.getItem("auth-token");
   if (token) {
     let tokenValid = await axios({
       method: "POST",
-      url: "http://localhost:4000/api/verifie-token",
+      url: urlVerifiedToken,
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",

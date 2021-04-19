@@ -22,7 +22,7 @@ export const Login = (props) => {
   }, [password]);
 
   useEffect(() => {
-    validarElToken({history});
+    validarElToken({ history });
   }, []);
 
   const enterLogin = async (e) => {
@@ -31,7 +31,7 @@ export const Login = (props) => {
     setCheckPassword(true);
 
     if (username && password) {
-      login({username, password, history})
+      login({ username, password, history });
     }
   };
 
@@ -39,15 +39,15 @@ export const Login = (props) => {
     <div className="loginWrapper">
       <div className="loginContent">
         <div className="textEnter">
-          <img src={logo} width="300" />
+          <img src={logo} width="255" />
         </div>
-        <form onSubmit={(e) => enterLogin(e)}>
+        <form onSubmit={(e) => enterLogin(e)} className="needs-validation" noValidate>
           <Input
             text={"Username *"}
             required={true}
             name={"username"}
             type={"text"}
-            placeholder="Usuario"
+            placeholder="Nombre de Usuario"
             value={username}
             onChange={setUsername}
             check={checkUsername && username === ""}
@@ -63,7 +63,9 @@ export const Login = (props) => {
             check={checkPassword && password === ""}
           />
           <div className="loginSubmit">
-            <button type="submit" className="button">Entrar</button>
+            <button type="submit" className="btn btn-primary button">
+              Entrar
+            </button>
           </div>
         </form>
       </div>

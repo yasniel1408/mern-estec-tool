@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import axios from "axios";
 import { urlLogin } from "../../util/rutasAPI";
 
-export const login = async({ username, password, history }) => {
+export const login = async ({ username, password, history }) => {
   let timerInterval;
   Swal.fire({
     title: "Entrando...",
@@ -18,7 +18,7 @@ export const login = async({ username, password, history }) => {
   }).then(async (result) => {
     if (result.dismiss === Swal.DismissReason.timer) {
       let url = urlLogin;
-      await axios({
+      let response = await axios({
         method: "POST",
         url,
         data: {
@@ -26,36 +26,33 @@ export const login = async({ username, password, history }) => {
           password,
         },
         headers: {
-          "Content-Type": "application/json"
-        }
-      })
-        .then((response) => {
-          Swal.fire({
-            title: "<strong>Autenticación</strong>",
-            icon: "success",
-            position: "top-right",
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
-            html: response.data.message,
-            confirmButtonText: "Ok!",
-          });
-          localStorage.setItem("auth-token", response.data.token);
-          setTimeout(() => {
-            history.push("/dashboard");
-          }, 500);
-        })
-        .catch(function (error) {
-          let errors = error.error;
-          console.log(error);
-          Swal.fire({
-            title: "<strong>Error</strong>",
-            icon: "error",
-            html: error,
-            confirmButtonText: "Ok!",
-          });
-        });
+          "Content-Type": "application/json",
+        },
+      });
 
+      if (!response.data.error) {
+        Swal.fire({
+          title: "<strong>Autenticación</strong>",
+          icon: "success",
+          position: "top-right",
+          showConfirmButton: false,
+          timer: 1000,
+          timerProgressBar: true,
+          html: response.data.message,
+          confirmButtonText: "Ok!",
+        });
+        localStorage.setItem("auth-token", response.data.token);
+        setTimeout(() => {
+          history.push("/dashboard");
+        }, 500);
+      } else {
+        Swal.fire({
+          title: "<strong>Error</strong>",
+          icon: "error",
+          html: response.data.error,
+          confirmButtonText: "Ok!",
+        });
+      }
     }
   });
 };

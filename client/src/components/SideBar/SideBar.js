@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import "./Nav.scss";
+import "./SideBar.scss";
 import logo from "../../img/logo-ESTEC-Tool.png";
 import { useHistory } from "react-router-dom";
 import { cargarUser, logout } from "./funtions";
@@ -15,7 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export const Nav = (props) => {
+export const SideBar = (props) => {
   let history = useHistory();
   const [user, setUser] = useState();
   const [path, setPath] = useState();
@@ -38,14 +38,14 @@ export const Nav = (props) => {
 
   return (
     <nav className="navbar">
-      <img loading="lazy" src={logo} width={160} alt="ESTEC-Tool" />
+      <img loading="lazy" src={logo} width={130} alt="ESTEC-Tool" />
       <div className="content-nav">
         <ul className="navbar-nav">
           <li className="nav-item">
             <hr />
           </li>
           <li className="nav-item liImgUser">
-            <img src={userFoto} width="60" className="imgUser" />
+            <img src={userFoto} width="40" className="imgUser" />
             <h3 className="fullname">{user ? user.user.fullname : ""}</h3>
           </li>
           <li className="nav-item infoUser">
@@ -147,4 +147,4 @@ export const Nav = (props) => {
   );
 };
 
-export default Nav;
+export default SideBar;

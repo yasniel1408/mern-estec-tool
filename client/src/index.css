@@ -30,17 +30,10 @@ p {
 }
 
 
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
 .button {
-  background-color: #004489;
-  border-radius: 5px;
+  background: #004489 !important;
   border: none;
   outline: none;
-  color: #fff;
-  cursor: pointer;
-  font-family: "Poppins", sans-serif;
   font-size: 14px;
   font-size: 1rem;
   font-weight: 500;
@@ -49,4 +42,5 @@ input[type="submit"],
   text-transform: uppercase;
   white-space: normal;
   width: 100%;
+  height: 50px;
 }

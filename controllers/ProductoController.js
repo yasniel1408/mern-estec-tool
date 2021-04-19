@@ -8,10 +8,7 @@ const producto = new Producto(config.connectionSQL);
 controller.data = async (req, res) => {
    try {
     let response = await producto.selectAll(req.query);
-
-    res.json({
-      data: response,
-    });
+    res.json(response);
   } catch (error) {
     producto.close();
     console.log(error);

@@ -21,40 +21,24 @@ module.exports = class Sql {
   }
 
   async selectAll() {
-    return new Promise((resolve, reject) => {
-      this.connect()
-        .then((pool) => {
-          return pool.request().query(`select * from Existencia_Lotes`);
-        })
-        .then((result) => {
-          mssql.close();
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
-    });
+    let pool = await this.connect();
+    let data = await pool.request().query(`select * from Existencia_Lotes`);
+    return {
+      data: data.recordset,
+    };
   }
 
-  async selectById(table, id) {
+  async selectById(id) {
     if (id == undefined || id === 0) {
-      return await this.selectAll(table);
+      return this.selectAll();
     } else {
-      return new Promise((resolve, reject) => {
-        this.connect()
-          .then((pool) => {
-            return pool
-              .request()
-              .query(`select * from Existencia_Lotes where id=${id}`);
-          })
-          .then((result) => {
-            mssql.close();
-            resolve(result);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      });
+      let pool = await this.connect();
+      let data = await pool
+        .request()
+        .query(`select * from Existencia_Lotes where Id_Producto='${id}'`);
+      return {
+        data: data.recordset,
+      };
     }
   }
 

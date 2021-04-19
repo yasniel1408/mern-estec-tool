@@ -46,11 +46,11 @@
 }
 
 .contentWork {
-  display: flex;
-  justify-content: start;
-  flex-direction: column;
   background: #ededf2;
   width: 100%;
+  padding: 0px;
+  margin: 0px;
+  margin-left: 250px;
 }
 
 html::-webkit-scrollbar {
@@ -85,6 +85,16 @@ tr.shown td.details-control {
   background-size: 20px;
 }
 
+td.details-control-more {
+  background: url("./img/details_open.png") no-repeat center center; /*Plus Image easily find on intent and I have stored this image into my scr/assets folder*/
+  cursor: pointer;
+  background-size: 20px;
+}
+tr.shown td.details-control-more {
+  background: url("./img/details_close.png") no-repeat center center; /*Minus Image easily find on intent and I have stored this image into my scr/assets folder*/
+  background-size: 20px;
+}
+
 .sorting_disabled {
   input {
     visibility: hidden;
@@ -102,39 +112,8 @@ tr.shown td.details-control {
   z-index: 99;
 }
 
-.dt-buttons {
-  position: absolute;
-  left: 220px;
-  top: 29px;
-  button {
-    background-color: #192a62;
-    border-radius: 5px;
-    border: none;
-    outline: none;
-    color: #fff;
-    cursor: pointer;
-    font-family: "Poppins", sans-serif;
-    font-size: 14px;
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    padding: 8px 10px;
-    text-transform: uppercase;
-    white-space: normal;
-    width: 120px;
-  }
-  .dt-button-collection {
-    position: absolute;
-    left: 50px !important;
-    button {
-      margin: 5px;
-    }
-  }
-}
-
 input[type="search"] {
   border-radius: 5px;
-  border: 1px solid #2a418f !important;
   outline: none;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
@@ -142,100 +121,145 @@ input[type="search"] {
   font-weight: 500;
   padding: 8px 8px;
   background: #fff !important;
-  content: url("./img/spinner.gif") !important;
+  // content: url("./img/spinner.gif") !important;
+  background-image: url('./img/searchicon.png') !important; /* Add a search icon to input */
+  background-position: 10px 6px !important; /* Position the search icon */
+  background-repeat: no-repeat !important; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
 }
 
-.table-almacen_filter {
-  label {
-    content: "" !important;
-  }
-}
-
-.dataTables_wrapper .dataTables_length select {
-  border: 1px solid #004489 !important;
-  border-radius: 5px !important;
-  padding: 8px !important;
-  background-color: transparent !important;
-  padding: 4px !important;
-  height: 33px;
-  outline: none;
-  &:active,
-  &:focus,
-  &:hover {
-    border: 1px solid #004489 !important;
-    border-radius: 5px !important;
-    padding: 8px !important;
-    background-color: transparent !important;
-    padding: 4px !important;
-    outline: none;
-  }
-}
-
-table {
-  .odd {
-    background: rgb(255, 255, 255) !important;
-  }
-  .even {
-    background: rgb(255, 255, 255) !important;
-  }
-  thead {
-    border-radius: 30px !important;
-
-    tr {
-      background: #004489;
-      color: #fff;
-    }
-  }
-  tbody {
-    margin-top: 20px;
-    color: black;
-    tr:hover {
-      background: #83baf1 !important;
-      color: #fff !important;
-    }
-  }
-  tfoot {
-    color: #fff;
-    tr {
-      background: #004489 !important;
-      color: #fff !important;
-    }
-  }
+.dataTables_length {
+  position: absolute;
 }
 
 .dataTables_wrapper {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-}
-
-.dataTables_paginate {
-  .current {
+  position: relative;
+  .dt-buttons {
+    position: absolute !important;
+    left: 200px;
+    top: -5px;
   }
 }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button {
-  box-sizing: border-box;
-  display: inline-block;
-  min-width: 1.5em;
-  padding: 0.5em 1em;
-  margin-left: 2px;
-  text-align: center;
-  text-decoration: none !important;
-  cursor: pointer;
-  *cursor: hand;
-  background: #83baf1;
-  color: #fff !important;
-  border-radius: 5px !important;
-  border: none;
+table{
+  width: 100%;
+  padding-left: 0px !important;
+}
+
+.svgBlue{
+  fill: #0891b8;
 }
 
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-  background: #ff5f0f80 !important;
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto !important; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  padding: 90px !important;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 70% !important;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
   color: white;
-  border-radius: 5px !important;
-  border: none !important;
-  background-color: white;
-  background: linear-gradient(to bottom, white 0%, #dcdcdc 100%);
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #2a418f;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #5cb85c;
+  color: white;
+}
+
+.btnModal {
+  cursor: pointer;
+}
+
+
+#myInput {
+  background-image: url('./img/searchicon.png'); /* Add a search icon to input */
+  background-position: 10px 12px; /* Position the search icon */
+  background-repeat: no-repeat; /* Do not repeat the icon image */
+  width: 100%; /* Full-width */
+  font-size: 16px; /* Increase font-size */
+  padding: 12px 20px 12px 40px; /* Add some padding */
+  border: 1px solid #ddd; /* Add a grey border */
+  margin-bottom: 12px; /* Add some space below the input */
+}
+
+#myTable {
+  border-collapse: collapse; /* Collapse borders */
+  width: 100%; /* Full-width */
+  border: 1px solid #ddd; /* Add a grey border */
+  font-size: 18px; /* Increase font-size */
+}
+
+#myTable th, #myTable td {
+  text-align: left; /* Left-align text */
+  padding: 12px; /* Add padding */
+}
+
+#myTable tr {
+  /* Add a bottom border to all table rows */
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  /* Add a grey background color to the table header and on hover */
+  background-color: #f1f1f1;
 }

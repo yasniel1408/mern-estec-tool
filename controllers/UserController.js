@@ -14,9 +14,30 @@ controller.login = async (req, res) => {
   var ad = new ActiveDirectory(config);
   await ad.authenticate(username, password, async function (err, auth) {
     if (err) {
-      console.log("ERROR: " + JSON.stringify(err));
-      //   res.status(500).json({ error: err.lde_message });
-      res.status(500).json({ error: "Usuario o contraseña incorrecta" });
+      let error = "";
+
+      console.log(
+        err.lde_message ==
+          "80090308: LdapErr: DSID-0C0903C5, comment: AcceptSecurityContext error, data 775, v23f0\x00"
+      );
+
+      if (
+        err.lde_message ==
+        "80090308: LdapErr: DSID-0C0903C5, comment: AcceptSecurityContext error, data 775, v23f0\x00"
+      ) {
+        error = "Su cuenta esta bloqueada";
+      } else if (
+        err.lde_message ==
+        "80090308: LdapErr: DSID-0C090421, comment: AcceptSecurityContext error, data 775, v23f0\x00"
+      ) {
+        error = "Su cuenta esta bloqueada";
+      } else {
+        error = "Usuario o contraseña incorrecta";
+      }
+
+      // res.status(500).json({ error: err.lde_message });
+
+      res.json({ error });
     }
     if (auth) {
       await ad.findUser(username, async (err, userad) => {
