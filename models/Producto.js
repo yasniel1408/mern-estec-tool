@@ -28,16 +28,30 @@ module.exports = class Producto {
     let sqlTot = "";
     let sqlRec = "";
 
+    // check alamcen
+    if (params.almacen !== "*") {
+      where += ` LEFT JOIN [UNE_2955A_INT].[dbo].[Existencia_Lotes] 
+      ON [UNE_2955A_INT].[dbo].[Existencia_Lotes].[Id_Producto] = [UNE_2955A_INT].[dbo].[Producto].[Id_Producto]
+      WHERE [UNE_2955A_INT].[dbo].[Existencia_Lotes].[Id_Almacen] = '${params.almacen}' `;
+    }
+
     // check search value exist
     if (params.search.value !== "") {
-      where += " WHERE ";
-      where += " ( Id_Producto LIKE '%" + params["search"]["value"] + "%' ";
-      where += " OR Desc_Producto LIKE '%" + params["search"]["value"] + "%' ";
-      where += " OR Fecha_Entrada LIKE '%" + params["search"]["value"] + "%' )";
+      if (params.almacen !== "*") { 
+        where += " AND ";
+      }else{
+        where += " WHERE ";
+      }
+      where += " ( [UNE_2955A_INT].[dbo].[Producto].[Id_Producto] LIKE '%" + params["search"]["value"] + "%' ";
+      where += " OR [UNE_2955A_INT].[dbo].[Producto].[Desc_Producto] LIKE '%" + params["search"]["value"] + "%' ";
+      where += " OR [UNE_2955A_INT].[dbo].[Producto].[Fecha_Entrada] LIKE '%" + params["search"]["value"] + "%' )";
     }
 
     // getting total number records without any search
-    let sql = `select [Id_Producto],[Desc_Producto],[Fecha_Entrada] from Producto`;
+    let sql = `select [UNE_2955A_INT].[dbo].[Producto].[Id_Producto],
+                      [UNE_2955A_INT].[dbo].[Producto].[Desc_Producto], 
+                      [UNE_2955A_INT].[dbo].[Producto].[Fecha_Entrada] 
+                      from [UNE_2955A_INT].[dbo].[Producto]`;
     sqlTot += sql;
     sqlRec += sql;
 
@@ -60,6 +74,8 @@ module.exports = class Producto {
 
     let queryTot = await pool.request().query(sqlTot);
     totalRecords = queryTot.recordset.length;
+
+    console.log(sqlRec);
 
     let queryRecords = await pool.request().query(sqlRec);
     data = queryRecords.recordset;

@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import 'bootstrap/dist/css/bootstrap.css';
 import "datatables.net-dt/js/dataTables.dataTables"
+import "react-select2-wrapper/css/select2.css";
 
 require( 'jquery' );
 require( 'datatables.net/js/jquery.dataTables' );

@@ -41,6 +41,7 @@
   border-radius: 10px;
   padding: 20px;
   flex-direction: row;
+  position: relative;
   /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
   /* box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px; */
 }
@@ -50,7 +51,7 @@
   width: 100%;
   padding: 0px;
   margin: 0px;
-  margin-left: 250px;
+  margin-left: 230px;
 }
 
 html::-webkit-scrollbar {
@@ -85,16 +86,15 @@ tr.shown td.details-control {
   background-size: 20px;
 }
 
-.selected{
+.selected {
   background: #ff5e0f !important;
   color: #fff !important;
 }
 
-.noselectede{
+.noselectede {
   background: #ff5e0f !important;
   color: #fff !important;
 }
-
 
 .sorting_disabled {
   input {
@@ -113,21 +113,28 @@ tr.shown td.details-control {
   z-index: 99;
 }
 
+.loaderTableMore {
+  background-image: url("./img/spinner.gif");
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  z-index: 99;
+}
+
 input[type="search"] {
   border-radius: 5px;
   outline: none;
   cursor: pointer;
   font-family: "Poppins", sans-serif;
-  font-size: 1rem;
   font-weight: 500;
-  padding: 8px 8px;
+  padding: 5px 5px;
   background: #fff !important;
   // content: url("./img/spinner.gif") !important;
-  background-image: url('./img/searchicon.png') !important; /* Add a search icon to input */
-  background-position: 10px 6px !important; /* Position the search icon */
+  background-image: url("./img/searchicon.png") !important; /* Add a search icon to input */
+  background-position: 10px 3.5px !important; /* Position the search icon */
   background-repeat: no-repeat !important; /* Do not repeat the icon image */
   width: 100%; /* Full-width */
-  font-size: 16px; /* Increase font-size */
+  font-size: 13px; /* Increase font-size */
   padding: 12px 20px 12px 40px; /* Add some padding */
   border: 1px solid #ddd; /* Add a grey border */
   margin-bottom: 12px; /* Add some space below the input */
@@ -142,19 +149,18 @@ input[type="search"] {
   .dt-buttons {
     position: absolute !important;
     left: 200px;
-    top: -5px;
+    top: -1px;
   }
 }
 
-table{
+table {
   width: 100%;
   padding-left: 0px !important;
 }
 
-.svgBlue{
+.svgBlue {
   fill: #0891b8;
 }
-
 
 /* The Modal (background) */
 .modal {
@@ -167,8 +173,8 @@ table{
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto !important; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
   padding: 90px !important;
 }
 
@@ -180,22 +186,34 @@ table{
   padding: 0;
   border: 1px solid #888;
   width: 70% !important;
-  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   -webkit-animation-name: animatetop;
   -webkit-animation-duration: 0.4s;
   animation-name: animatetop;
-  animation-duration: 0.4s
+  animation-duration: 0.4s;
 }
 
 /* Add Animation */
 @-webkit-keyframes animatetop {
-  from {top:-300px; opacity:0} 
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 @keyframes animatetop {
-  from {top:-300px; opacity:0}
-  to {top:0; opacity:1}
+  from {
+    top: -300px;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 /* The Close Button */
@@ -219,7 +237,9 @@ table{
   color: white;
 }
 
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+}
 
 .modal-footer {
   padding: 2px 16px;
@@ -231,9 +251,8 @@ table{
 //   cursor: pointer;
 // }
 
-
 #myInput {
-  background-image: url('./img/searchicon.png'); /* Add a search icon to input */
+  background-image: url("./img/searchicon.png"); /* Add a search icon to input */
   background-position: 10px 12px; /* Position the search icon */
   background-repeat: no-repeat; /* Do not repeat the icon image */
   width: 100%; /* Full-width */
@@ -250,7 +269,8 @@ table{
   font-size: 18px; /* Increase font-size */
 }
 
-#myTable th, #myTable td {
+#myTable th,
+#myTable td {
   text-align: left; /* Left-align text */
   padding: 12px; /* Add padding */
 }
@@ -260,12 +280,39 @@ table{
   border-bottom: 1px solid #ddd;
 }
 
-#myTable tr.header, #myTable tr:hover {
+#myTable tr.header,
+#myTable tr:hover {
   /* Add a grey background color to the table header and on hover */
   background-color: #f1f1f1;
 }
 
+.otrosFiltros {
+  position: absolute;
+  right: 250px;
+  top: 20.5px;
+  z-index: 1;
+}
+.selectAlmacen {
+  position: absolute;
+  right: 300px;
+  z-index: 1;
+  top: 21px;
+  min-width: 200px;
+}
 
+.select2{
+  width: 200px !important;
+}
+.select2-search__field{
+  padding-left: 30px !important;
+}
 
+.buttons-html5 {
+  font-size: 13px !important;
+  height: 30px !important;
+}
 
-
+.buttons-print {
+  font-size: 13px !important;
+  height: 30px !important;
+}

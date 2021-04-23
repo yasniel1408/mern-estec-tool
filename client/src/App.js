@@ -23,8 +23,8 @@ const Container = () => (
     <SideBar />
     <div className="contentWork">
       <Switch>
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route path="/almacen" component={Almacen} />
+        <Route  path="/dashboard" component={Dashboard} />
+        <Route  path="/almacen" component={Almacen} />
       </Switch>
     </div>
   </>

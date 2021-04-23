@@ -1,5 +1,5 @@
 .navbar {
-  width: 250px;
+  width: 230px;
   display: flex;
   justify-content: start !important;
   flex-direction: column;
@@ -37,7 +37,7 @@ h5 {
 .fullname {
   padding: 0px;
   margin: 0px;
-  font-size: 18px;
+  font-size: 15px;
   width: 60%;
 }
 
@@ -45,7 +45,7 @@ h5 {
   margin-left: 0px;
   margin-left: 10px;
   h5{
-    font-size: 15px;
+    font-size: 13px;
   }
 }
 
@@ -75,13 +75,14 @@ hr {
 
 .li-nav-link {
     margin-left: 0px;
-    height: 45px;
-    margin-top: 10px;
-    width: 90%;
+    height: 40px;
+    margin-top: 7px;
+    width: 100%;
 }
 
 .nav-link{
-    font-weight: 400;
+    font-weight: 700;
+    margin-top: 5px;
 }
 
 .notify{

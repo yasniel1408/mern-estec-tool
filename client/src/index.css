@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 12px !important;
 }
 
 code {
@@ -34,7 +35,7 @@ p {
   background: #004489 !important;
   border: none;
   outline: none;
-  font-size: 14px;
+  font-size: 12px !important;
   font-size: 1rem;
   font-weight: 500;
   letter-spacing: 0.5px;

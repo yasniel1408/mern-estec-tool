@@ -1,22 +1,54 @@
 import React, { useEffect, useState } from "react";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
-import { urlGetExistenciaProducto, urlGetProducto } from "../../util/rutasAPI";
+import {
+  urlGetExistenciaProducto,
+  urlGetProducto,
+  urlGetAlmacen,
+} from "../../util/rutasAPI";
+import Select2 from "react-select2-wrapper";
+
 import $ from "jquery";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { loadOneDate } from "./functions";
+import axios from "axios";
 
 export const Almacen = (props) => {
-  const [producto, setProducto] = useState([]);
+  const [almacen, setAlmacen] = useState("*");
+  const [almacenes, setAlmacenes] = useState([]);
 
   useEffect(() => {
+    const loadAlmacen = async () => {
+      let response = await axios.get(urlGetAlmacen, {
+        headers: {
+          Authorization: localStorage.getItem("auth-token"),
+        },
+      });
+      if (response.data) {
+        let currentData = [{id: "*", text: "TODOS LOS ALMACENES"}];
+        response.data.data.map((a) => {
+          currentData.push({
+            id: a.Id_Almacen.trim(),
+            text: `${a.Id_Almacen.trim()}  -  ${a.Desc_Almacen.trim()}`,
+          });
+        });
+        setAlmacenes(currentData);
+      }
+    };
+    loadAlmacen();
+  }, []);
+
+  useEffect(() => {
+    LoadDatatablesFull();
+  }, []);
+
+  const LoadDatatablesFull = async() => {
     $(document).ready(function () {
+      $("#table-almacen").dataTable().fnDestroy();
       var table = $("#table-almacen").DataTable({
+        responsive: true,
         bProcessing: true,
         ajax: {
           method: "GET",
           url: urlGetProducto,
-          data: { operacion: "datos" },
+          data: { almacen },
           headers: {
             Authorization: localStorage.getItem("auth-token"),
           },
@@ -89,7 +121,7 @@ export const Almacen = (props) => {
             "Mostrando registros del 0 al 0 de un total de 0 registros",
           sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
           sInfoPostFix: "",
-          sSearch: "Buscar:",
+          sSearch: "",
           searchPlaceholder: "Filtro Universal...",
           sUrl: "",
           sInfoThousands: ",",
@@ -127,7 +159,7 @@ export const Almacen = (props) => {
                 `<th class='details-control sorting_disabled' disabled> </th>` +
                 "<th>Id Almacen</th>" +
                 "<th>Id Lote</th>" +
-                "<th>Fecha Entrada</th>" +
+                "<th>Fecha Entrada Almacen</th>" +
                 "<th>Fecha Vence</th>" +
                 "<th>Saldo Existencia</th>" +
                 "<th>Saldo Existencia</th>" +
@@ -236,7 +268,7 @@ export const Almacen = (props) => {
               ],
               language: {
                 sProcessing:
-                  "<div class='loaderTable' style='display: block;width:50px;height:50px;margin:0 auto;'></div>",
+                  "<div class='loaderTableMore' style='display: block;width:50px;height:50px;margin:0 auto;'></div>",
                 sLengthMenu: "Mostrar _MENU_ registros",
                 sZeroRecords: "No se encontraron resultados",
                 sEmptyTable: "Ningún dato disponible en esta tabla",
@@ -251,7 +283,7 @@ export const Almacen = (props) => {
                 sUrl: "",
                 sInfoThousands: ",",
                 sLoadingRecords:
-                  "<div class='loaderTable' style='display: block;width:50px;height:50px;margin:0 auto;'></div>",
+                  "<div class='loaderTableMore' style='display: block;width:50px;height:50px;margin:0 auto;'></div>",
                 oPaginate: {
                   sFirst: "Primero",
                   sLast: "Último",
@@ -289,9 +321,9 @@ export const Almacen = (props) => {
                         <div id="myModal${data3.Id_Producto.trim()}" class="modal myModal${data3.Id_Producto.trim()}">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h2>${tr[0].cells[2].innerText.trim()} con ID: ${data3.Id_Producto.trim()} en Almacen: ${
-                                                data3.Id_Almacen
-                                              }</h2>
+                              <h4>${tr[0].cells[2].innerText.trim()} con ID: ${data3.Id_Producto.trim()} en Almacen: ${
+                          data3.Id_Almacen
+                        }</h4>
                                 <span class="close close${data3.Id_Producto.trim()}">×</span>
                             </div>
                             
@@ -439,39 +471,45 @@ export const Almacen = (props) => {
                           </div>
                           </div>
                         </div>
-                    `
-                      )
+                      `)
                       .show();
                     trD.addClass("shown");
 
-                    var modal = document.querySelector(
-                      `.myModal${data3.Id_Producto.trim()}`
-                    );
-                    var span = document.getElementsByClassName(`close${data3.Id_Producto.trim()}`)[0];
-                    setTimeout(() => {
-                      modal.style.display = "block";
-                    }, 100);
-                    span.onclick = function () {
-                      modal.style.display = "none";
-                      rowD.child.hide();
-                      trD.removeClass("shown");
-                    };
-                    window.onclick = function (event) {
-                      if (event.target == modal) {
+                    try{
+                      var modal = document.querySelector(
+                        `.myModal${data3.Id_Producto.trim()}`
+                      );
+                      var span = document.getElementsByClassName(
+                        `close${data3.Id_Producto.trim()}`
+                      )[0];
+                      setTimeout(() => {
+                        modal.style.display = "block";
+                      }, 200);
+                      span.onclick = function () {
                         modal.style.display = "none";
                         rowD.child.hide();
                         trD.removeClass("shown");
-                      }
-                    };
+                      };
+                      window.onclick = function (event) {
+                        if (event.target == modal) {
+                          modal.style.display = "none";
+                          rowD.child.hide();
+                          trD.removeClass("shown");
+                        }
+                      };
+                    }catch(err){
+                        console.log(err)
+                    }
+                   
                   }
-                }, 100);
+                }, 200);
               }
             );
           });
         }
       });
     });
-  }, []);
+  };
 
   function formatoFecha(value) {
     if (value === null) return "";
@@ -484,13 +522,24 @@ export const Almacen = (props) => {
     <>
       <Breadcrumb text="Productos en existencia" />
       <div className="contentArea">
+        <div className="otrosFiltros">
+          <Select2
+            data={almacenes}
+            value={almacen}
+            onChange={(a) => setAlmacen(a.target.value)}
+            onSelect={()=>LoadDatatablesFull()}
+            options={{
+              placeholder: "Selecciona un almacen",
+            }}
+          />
+        </div>
         <table id="table-almacen" className="table table-hover">
           <thead>
             <tr>
               <th className="details-control sorting_disabled" disabled></th>
               <th>Id Producto</th>
               <th>Nomber del Producto</th>
-              <th>Fecha de Entrada</th>
+              <th>Fecha de Primera Entrada</th>
             </tr>
           </thead>
         </table>

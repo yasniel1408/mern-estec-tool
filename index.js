@@ -1,24 +1,21 @@
-// require('events').EventEmitter.defaultMaxListeners = Infinity;
 const express = require("express");
-// require('events').EventEmitter.prototype._maxListeners = 100;
 const morgan = require("morgan");
 const path = require("path");
 const app = require("express")();
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
 const cors = require("cors");
-// require('./db/db');
 require("./socket/socket")(io);
 
 //Settings
-app.set("port", process.env.PORT || 4000);
+app.set("port", process.env.PORT || 80);
 
 //Middelewares
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.use(express.json());
 app.use(
   cors({
-    origen: "http://172.16.176.2:3000",
+    origen: "http://etool.estec.une.cu",
     credentials: true, 
     expuestosHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
     methods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
@@ -33,7 +30,10 @@ app.use(
 // });
 
 //Routes
-app.use("/api", require("./routes/api"));
+app.use("/api", require("./routes/apiUser"));
+app.use("/api", require("./routes/apiProducto"));
+app.use("/api", require("./routes/apiAlmacen"));
+
 
 //Static files
 app.use(express.static(path.join(__dirname, "public")));
