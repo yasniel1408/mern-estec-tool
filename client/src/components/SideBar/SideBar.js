@@ -76,25 +76,27 @@ export const SideBar = (props) => {
             </Link>
           </li>
 
-          <li
-            className="styleItem li-nav-link"
-            style={{
-              background: path === "/almacen" ? "#2a418f" : ""
-            }}
-            onClick={() => {
-              changeItem();
-            }}
-          >
-            <Link
-              className="nav-link"
-              to="/almacen"
+          {(user ? user.user.rol === "DIRECTOR" || user.user.rol === "ADMIN": "")?
+              <li
+              className="styleItem li-nav-link"
               style={{
-                color: path === "/almacen" ? "#fff" : "rgb(138, 135, 135)",
+                background: path === "/almacen" ? "#2a418f" : ""
               }}
-            >
-              <FontAwesomeIcon icon={faTable} /> Almacenes
-            </Link>
-          </li>
+              onClick={() => {
+                changeItem();
+              }}
+              >
+              <Link
+                className="nav-link"
+                to="/almacen"
+                style={{
+                  color: path === "/almacen" ? "#fff" : "rgb(138, 135, 135)",
+                }}
+              >
+                <FontAwesomeIcon icon={faTable} /> Almacenes
+              </Link>
+              </li>
+          :""}
 
           <li
             className="styleItem li-nav-link"

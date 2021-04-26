@@ -1,6 +1,9 @@
 const controller = {};
 var ActiveDirectory = require("activedirectory");
 const jwt = require("jsonwebtoken");
+const config = require("../db/configSqlsEstecTool");
+const UserModel = require("../models/User");
+const User = new UserModel(config.connectionSQL);
 
 controller.login = async (req, res) => {
   let { username, password } = req.body;
@@ -51,25 +54,30 @@ controller.login = async (req, res) => {
             .status(500)
             .json({ error: "Usuario:" + username + "no encontrado." });
         } else {
-          // const userm = await User.findOne({ username });
-          //   console.log(userm)
+          
+          let rolReal = "USER";
+          //VALIDAR QUE ESTE EN BD YA!!!!!
+          let response = await User.selectByUsername(userad.sAMAccountName);
+          if(!response.data[0]){
+            await User.save({
+              username: userad.sAMAccountName,
+              photo: null,
+              rol: userad.description,
+            })
+          }else{
+            rolReal = response.data[0].rol
+          }
 
-          const user = {
+          let user = {
             username: userad.sAMAccountName,
             fullname: userad.displayName,
             photo: "",
             email: userad.mail,
-            active: true,
-            rol: userad.description,
-          };
-
-          //esto hay que guardarlo en alguna tabla
-          //   if (!userm) {
-          //     await user.save().catch((err) => res.json(err));
-          //   }
+            rol: rolReal,
+          }
 
           let token = jwt.sign({ user: user }, "secret", {
-            expiresIn: "24h",
+            expiresIn: "120h",
           });
           await res.status(200).json({
             token,
@@ -89,8 +97,8 @@ controller.verificarToken = async (req, res) => {
 };
 
 controller.logout = async (req, res) => {
-  //   let token = req.get("Authorization");
-  //   const response = await jwt.destroy(token);
+    //  let token = req.get("Authorization");
+    //  const response = await jwt.destroy(token);
   await res.json({
     ok: true,
   });

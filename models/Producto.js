@@ -75,8 +75,6 @@ module.exports = class Producto {
     let queryTot = await pool.request().query(sqlTot);
     totalRecords = queryTot.recordset.length;
 
-    console.log(sqlRec);
-
     let queryRecords = await pool.request().query(sqlRec);
     data = queryRecords.recordset;
 
