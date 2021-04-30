@@ -7,6 +7,7 @@ if(process.env.NODE_ENV === "production"){
 
 const urlLogin = `${server}/login`;
 const urlVerifiedToken = `${server}/verifie-token`;
+const urlRefershToken = `${server}/refresh-token`;
 const urlLogout = `${server}/logout`;
 
 const urlGetProducto = `${server}/producto`;
@@ -18,6 +19,7 @@ const urlGetAlmacen = `${server}/almacen`;
 module.exports = {
     urlLogin,
     urlVerifiedToken,
+    urlRefershToken,
     urlLogout,
     urlGetProducto,
     urlGetExistenciaProducto,

@@ -1,6 +1,8 @@
 "use strict";
 
+const ActiveDirectory = require("activedirectory/lib/activedirectory");
 const mssql = require("mssql");
+const { createToken } = require("../util/auth");
 
 module.exports = class User {
   constructor(stringConnection) {

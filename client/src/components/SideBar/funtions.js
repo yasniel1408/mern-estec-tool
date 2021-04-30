@@ -16,43 +16,43 @@ export const logout = async ({ history }) => {
       Authorization: localStorage.getItem("auth-token"),
     },
   })
-    .then((response) => {
-      if (response.data.ok) {
-        localStorage.setItem("auth-token", "");
-        Swal.fire({
-          title: "<strong>Salir</strong>",
-          icon: "success",
-          position: "top-right",
-          showConfirmButton: false,
-          timer: 1000,
-          timerProgressBar: true,
-          html: response.data.message,
-          confirmButtonText: "Ok!",
-        });
-        setTimeout(() => {
-          history.push("/");
-        }, 500);
-      } else {
-        Swal.fire({
-          title: "<strong>Error</strong>",
-          icon: "error",
-          html: response.data.error.message,
-          confirmButtonText: "Ok!",
-        });
-        setTimeout(() => {
-          history.push("/");
-        }, 500);
-      }
-    })
-    .catch((response) => {
+  .then((response) => {
+    if (!response.data.auth) {
+      localStorage.setItem("auth-token", response.data.token);
       Swal.fire({
-        title: "<strong>Error</strong>",
-        icon: "error",
-        html: response,
+        title: "<strong>Salir</strong>",
+        icon: "success",
+        position: "top-right",
+        showConfirmButton: false,
+        timer: 1000,
+        timerProgressBar: true,
+        html: response.data.message,
         confirmButtonText: "Ok!",
       });
       setTimeout(() => {
         history.push("/");
       }, 500);
+    } else {
+      Swal.fire({
+        title: "<strong>Error</strong>",
+        icon: "error",
+        html: response.data.error.message,
+        confirmButtonText: "Ok!",
+      });
+      setTimeout(() => {
+        history.push("/");
+      }, 500);
+    }
+  })
+  .catch((response) => {
+    Swal.fire({
+      title: "<strong>Error</strong>",
+      icon: "error",
+      html: response,
+      confirmButtonText: "Ok!",
     });
+    setTimeout(() => {
+      history.push("/");
+    }, 500);
+  });
 };

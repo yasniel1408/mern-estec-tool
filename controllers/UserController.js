@@ -3,7 +3,10 @@ var ActiveDirectory = require("activedirectory");
 const jwt = require("jsonwebtoken");
 const config = require("../db/configSqlsEstecTool");
 const UserModel = require("../models/User");
+const { createToken } = require("../util/auth");
 const User = new UserModel(config.connectionSQL);
+
+
 
 controller.login = async (req, res) => {
   let { username, password } = req.body;
@@ -76,9 +79,7 @@ controller.login = async (req, res) => {
             rol: rolReal,
           }
 
-          let token = jwt.sign({ user: user }, "secret", {
-            expiresIn: "120h",
-          });
+          let token = createToken({user})
           await res.status(200).json({
             token,
           });
@@ -92,7 +93,14 @@ controller.login = async (req, res) => {
 
 controller.verificarToken = async (req, res) => {
   res.json({
-    ok: true,
+    auth: true,
+  });
+};
+
+controller.refreshToken = async (req, res) => {
+  res.json({
+    auth: true,
+    token: createToken(req.user),
   });
 };
 
@@ -100,7 +108,8 @@ controller.logout = async (req, res) => {
     //  let token = req.get("Authorization");
     //  const response = await jwt.destroy(token);
   await res.json({
-    ok: true,
+    auth: false,
+    token: "",
   });
 };
 

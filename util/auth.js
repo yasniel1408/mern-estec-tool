@@ -1,11 +1,18 @@
 const jwt = require("jsonwebtoken");
 
+let createToken = ({user}) => {
+  let token = jwt.sign({ user: user }, "secret", {
+    expiresIn: "100m",
+  });
+  return token;
+};
+
 let verificarToken = (req, res, next) => {
   let token = req.get("Authorization");//headers
   jwt.verify(token, "secret", (err, decoded) => {
     if (err) {
       return res.json({
-        ok: false,
+        auth: false,
         error: err
       });
     }
@@ -20,7 +27,7 @@ let verificarADMIN = (req, res, next) => {
   
       if (err) {
         return res.json({
-          ok: false,
+          auth: false,
           error: err
         });
       }
@@ -41,7 +48,7 @@ let verificarADMIN = (req, res, next) => {
   
       if (err) {
         return res.json({
-          ok: false,
+          auth: false,
           error: err
         });
       }
@@ -59,7 +66,8 @@ let verificarADMIN = (req, res, next) => {
   };
 
 module.exports = {
+  createToken,
   verificarToken,
   verificarADMIN,
   verificarDIRECTOR
-};
+  };
