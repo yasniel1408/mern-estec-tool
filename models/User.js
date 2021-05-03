@@ -8,21 +8,11 @@ module.exports = class User {
   }
 
   async connect() {
-    let res = await mssql.connect(this.stringConnection)
-    console.log(res)
-    return ;
+    return await mssql.connect(this.stringConnection);
   }
 
   async close() {
     return mssql.close();
-  }
-
-  async selectAll(params) {
-    let pool = await this.connect();
-    let data = await pool.request().query(`SELECT * FROM User`);
-    return {
-      data: data.recordset,
-    };
   }
 
   async save({username, photo, rol}) {
@@ -53,6 +43,5 @@ module.exports = class User {
       };
     }
   } 
-
 
 };

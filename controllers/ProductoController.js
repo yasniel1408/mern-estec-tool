@@ -2,15 +2,15 @@ const controller = {};
 ("use strict");
 
 const config = require("../db/configSqls");
-const Producto = require("../models/Producto");
-const producto = new Producto(config.connectionSQL);
+const ProductoModel = require("../models/Producto");
+const Producto = new ProductoModel(config.connectionSQL);
 
 controller.data = async (req, res) => {
    try {
-    let response = await producto.selectAll(req.query);
+    let response = await Producto.selectAll(req.query);
     res.json(response);
   } catch (error) {
-    producto.close();
+    Producto.close();
     console.log(error);
   }
 };

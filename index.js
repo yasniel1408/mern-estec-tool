@@ -18,7 +18,7 @@ app.use(morgan("dev"));
 // app.use(cors());
 app.use(
   cors({
-    origen: "http://etool.estec.une.cu",
+    origen: "*",
     credentials: true, 
     expuestosHeaders: ['Content-Length', 'X-Foo', 'X-Bar'],
     methods: ['OPTIONS', 'GET', 'PUT', 'POST', 'DELETE'],
