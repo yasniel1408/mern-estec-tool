@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const bodyParser = require('body-parser');
 const path = require("path");
 const app = require("express")();
 const http = require("http").createServer(app);
@@ -11,8 +12,10 @@ require("./socket/socket")(io);
 app.set("port", process.env.PORT || 80);
 
 //Middelewares
-// app.use(morgan("dev"));
-app.use(express.json());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(morgan("dev"));
+// app.use(cors());
 app.use(
   cors({
     origen: "http://etool.estec.une.cu",
@@ -33,7 +36,6 @@ app.use(
 app.use("/api", require("./routes/apiUser"));
 app.use("/api", require("./routes/apiProducto"));
 app.use("/api", require("./routes/apiAlmacen"));
-
 
 //Static files
 app.use(express.static(path.join(__dirname, "public")));

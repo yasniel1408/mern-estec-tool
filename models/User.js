@@ -1,8 +1,6 @@
 "use strict";
 
-const ActiveDirectory = require("activedirectory/lib/activedirectory");
 const mssql = require("mssql");
-const { createToken } = require("../util/auth");
 
 module.exports = class User {
   constructor(stringConnection) {
@@ -10,7 +8,9 @@ module.exports = class User {
   }
 
   async connect() {
-    return mssql.connect(this.stringConnection);
+    let res = await mssql.connect(this.stringConnection)
+    console.log(res)
+    return ;
   }
 
   async close() {
@@ -52,7 +52,7 @@ module.exports = class User {
         data: data.recordset,
       };
     }
-  }
+  } 
 
 
 };

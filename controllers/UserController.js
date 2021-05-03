@@ -97,13 +97,6 @@ controller.verificarToken = async (req, res) => {
   });
 };
 
-controller.refreshToken = async (req, res) => {
-  res.json({
-    auth: true,
-    token: createToken(req.user),
-  });
-};
-
 controller.logout = async (req, res) => {
     //  let token = req.get("Authorization");
     //  const response = await jwt.destroy(token);
