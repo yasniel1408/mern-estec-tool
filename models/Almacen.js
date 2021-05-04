@@ -18,6 +18,7 @@ module.exports = class Almacen {
   async selectAll(params) {
     let pool = await this.connect();
     let data = await pool.request().query(`SELECT TOP 1000 [Id_Almacen], [Desc_Almacen] FROM [UNE_2955A_INT].[dbo].[Almacen]`);
+    close()
     return {
       data: data.recordset,
     };

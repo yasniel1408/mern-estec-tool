@@ -15,9 +15,9 @@ module.exports = class User {
     return mssql.close();
   }
 
-  async save({username, photo, rol}) {
+  async save({ username, photo, rol }) {
     let pool = await this.connect();
-    
+
     let query = `INSERT INTO [estec_tool].[dbo].[user]
         ([estec_tool].[dbo].[user].[username]
         ,[estec_tool].[dbo].[user].[photo]
@@ -26,8 +26,11 @@ module.exports = class User {
         '${username}',
         '${photo}',
         '${rol}');`;
-    
-    return await pool.request().query(query);
+
+    let response = await pool.request().query(query);
+    close();
+
+    return response;
   }
 
   async selectByUsername(username) {
@@ -37,11 +40,13 @@ module.exports = class User {
       let pool = await this.connect();
       let data = await pool
         .request()
-        .query(`select * from [estec_tool].[dbo].[user] where [estec_tool].[dbo].[user].[username]='${username}'`);
+        .query(
+          `select * from [estec_tool].[dbo].[user] where [estec_tool].[dbo].[user].[username]='${username}'`
+        );
+      close();
       return {
         data: data.recordset,
       };
     }
-  } 
-
+  }
 };

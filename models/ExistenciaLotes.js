@@ -23,6 +23,7 @@ module.exports = class Sql {
   async selectAll() {
     let pool = await this.connect();
     let data = await pool.request().query(`select * from Existencia_Lotes`);
+    close()
     return {
       data: data.recordset,
     };

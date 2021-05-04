@@ -78,6 +78,7 @@ module.exports = class Producto {
     let queryRecords = await pool.request().query(sqlRec);
     data = queryRecords.recordset;
 
+    close()
     return {
       draw: parseInt(params["draw"]),
       recordsTotal: parseInt(totalRecords),
